@@ -7,7 +7,7 @@ class ThingsResource(object):
     resp.body = ('\nTwo things awe me most, the starry sky '
                  'above me and the moral law within me.\n'
                  '\n'
-                 '    ~ Immanuel Kant\n\n')
+                 '    ~ Immanuel Kant Test Deploy\n\n')
 
 # falcon.API instances are callable WSGI apps
 application = falcon.API()
