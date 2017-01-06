@@ -10,7 +10,7 @@ class ThingsResource(object):
 <head>
   <meta charset="utf-8">
    <title>The HTML5 Herald</title>
-   <link rel="stylesheet" href="/css">
+   <link rel="stylesheet" href="/furtive">
  </head>
   <body>
     <h1>Title</h1>
@@ -37,9 +37,9 @@ application = falcon.API()
 
 # Resources are represented by long-lived class instances
 things = ThingsResource()
-css = CSSResource('/home/Fidtz/layout-blog/furtive/css/furtive.css')
+furtive = CSSResource('/home/Fidtz/layout-blog/furtive/css/furtive.css')
 
 # things will handle all requests to the '/things' URL path
-application.add_route('/css',css)
+application.add_route('/furtive',furtive)
 application.add_route('/things', things)
 
