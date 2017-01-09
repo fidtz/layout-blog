@@ -1,34 +1,22 @@
 import falcon
 import db
 
-class ThingsResource(object):
+class HtmlResource(object):
+
+    def __init__(self, htmlrequired):
+        db.cursor.execute("select content from text_resources where resourcename = '{}'".format(htmlrequired))
+        self.htmlcontent = db.cursor.fetchone()[0]
 
     def on_get(self, req, resp):
         """Handles GET requests"""
         resp.status = falcon.HTTP_200  # This is the default status
         resp.content_type = 'text/html'
-        db.cursor.execute('select name from author')
-        resp.body = ('''<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-   <title>Layout-Blog X</title>
-   <link rel="stylesheet" href="/furtive">
- </head>
-  <body>
-    <h1>Title</h1>
-    <h2>Sub Title</h2>
-    <p>{}</p>
-    <script src="js/scripts.js"></script>
-  </body>
-</html>
-''').format(db.cursor.fetchone()[0])
-
+        resp.body = self.htmlcontent
 
 class CSSResource(object):
-    def __init__(self, csspath):
-        with open(csspath, 'r') as cssfile:
-            self.csscontent = cssfile.read()
+    def __init__(self, cssrequired):
+        db.cursor.execute("select content from text_resources where resourcename = '{}'".format(cssrequired))
+        self.csscontent = db.cursor.fetchone()[0]
 
     def on_get(self, req, resp):
         """returns css file for /css url"""
@@ -40,14 +28,12 @@ class CSSResource(object):
 application = falcon.API()
 
 # Resources are represented by long-lived class instances
-things = ThingsResource()
-furtive = CSSResource('/home/Fidtz/layout-blog/furtive/css/furtive.css')
+home = HtmlResource('initalhome')
+furtive = CSSResource('furtive')
 
 # things will handle all requests to the '/things' URL path
 application.add_route('/furtive', furtive)
-application.add_route('/things', things)
-
-#db.close()
+application.add_route('/', home)
 
 import subprocess  # for pythonanywhere
 subprocess.run(["/home/Fidtz/layout-blog/reload"])  # for pythonanywhere
