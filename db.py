@@ -1,13 +1,19 @@
 import psycopg2
+from os.path import expanduser
+import configparser
 
 connection = None
 cursor = None
 
-_cdatabase = #readfile for this
-_chost = #readfile for this
-_cport = #readfile for this
-_cuser = #readfile for this
-_cpassword = #readfile for this
+home = expanduser("~")
+auth = configparser.ConfigParser()
+auth.read(home + '/.dbpy')
+
+_cdatabase = auth['auth']['_cdatabase']
+_chost = auth['auth']['_chost']
+_cport = auth['auth']['_cport']
+_cuser = auth['auth']['_cuser']
+_cpassword = auth['auth']['_cpassword']
 
 def _getconnection():
     global connection
